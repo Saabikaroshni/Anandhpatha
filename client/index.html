@@ -57,7 +57,6 @@
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         section { padding: 100px 0; overflow: hidden; position: relative; }
 
-        /* --- Header --- */
         header {
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(10px);
@@ -84,7 +83,6 @@
         }
         .signin-signup-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(10, 105, 198, 0.4); }
 
-        /* --- Hero Section --- */
         .hero { min-height: 100vh; display: flex; align-items: center; text-align: center; }
         .hero-content h1 { font-size: 3.2rem; margin: 0; line-height: 1.3; font-weight: 800; }
         .hero-content h1 .lang-hi { font-size: 0.8em; font-weight: 600; color: #4a5568; }
@@ -108,7 +106,6 @@
         
         .section-title { text-align: center; margin-bottom: 60px; font-size: 2.5rem; }
 
-        /* --- Universal Login Modal --- */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -186,7 +183,6 @@
         .student-submit { background-color: var(--primary-blue); }
         .teacher-submit { background-color: var(--secondary-green); }
         
-        /* Other Sections Styling... */
         .how-it-works .timeline { position: relative; max-width: 800px; margin: 0 auto; }
         .how-it-works .timeline::after { content: ''; position: absolute; width: 6px; background-color: var(--primary-blue); opacity: 0.2; top: 0; bottom: 0; left: 50%; margin-left: -3px; }
         .timeline-container { padding: 10px 40px; position: relative; width: 50%; box-sizing: border-box; }
@@ -209,14 +205,8 @@
         .author-avatar { width: 50px; height: 50px; border-radius: 50%; margin-right: 15px; }
         .author-info h4 { margin: 0; } .author-info p { margin: 0; font-size: 0.9em; color: #718096; }
         
-        /* --- New Info Card Section --- */
         .info-section { padding-bottom: 100px; }
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 30px;
-            align-items: stretch;
-        }
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; align-items: stretch; }
         .info-card {
             background-color: white;
             border-radius: 20px;
@@ -229,11 +219,7 @@
             transition: transform 0.3s;
         }
         .info-card:hover { transform: translateY(-10px); }
-        .info-card img {
-            max-width: 150px;
-            height: auto;
-            margin-bottom: 20px;
-        }
+        .info-card img { max-width: 150px; height: auto; margin-bottom: 20px; }
         .info-card h3 { font-size: 1.8rem; margin: 0 0 10px 0; }
         .info-card h3 span {
             background: linear-gradient(45deg, var(--primary-blue), var(--secondary-green));
@@ -241,15 +227,7 @@
             -webkit-text-fill-color: transparent;
         }
         .info-card p { margin: 0 0 25px 0; color: #718096; flex-grow: 1; }
-        .info-btn {
-            text-decoration: none;
-            color: white;
-            padding: 12px 30px;
-            border-radius: 50px;
-            font-weight: 600;
-            display: inline-block;
-            transition: all 0.3s ease;
-        }
+        .info-btn { text-decoration: none; color: white; padding: 12px 30px; border-radius: 50px; font-weight: 600; display: inline-block; transition: all 0.3s ease; }
         .info-btn.ai { background-color: var(--primary-blue); }
         .info-btn.contact { background-color: var(--secondary-green); }
         .info-btn:hover { box-shadow: 0 8px 20px rgba(0,0,0,0.2); transform: scale(1.05); }
@@ -295,7 +273,6 @@
         </div>
     </section>
 
-    <!-- Other Sections -->
     <section class="how-it-works">
         <div class="container">
             <h2 class="section-title reveal">Your Path to Mastery in 4 Steps</h2>
@@ -328,11 +305,9 @@
         </div>
     </section>
 
-    <!-- New Info Card Section -->
     <section class="info-section">
         <div class="container">
             <div class="info-grid">
-                <!-- AI Doubt Solver Card -->
                 <div class="info-card reveal">
                     <img src="https://placehold.co/300x200/eaf8ff/0a69c6?text=AnandAI" alt="AI Assistant Illustration">
                     <h3>Solve your doubts with <span>AnandAI</span></h3>
@@ -340,7 +315,6 @@
                     <a href="#" class="info-btn ai">Ask a Doubt</a>
                 </div>
 
-                <!-- Contact Card -->
                 <div class="info-card reveal">
                     <img src="https://placehold.co/300x200/eafaf1/24a148?text=Support" alt="Support Team Illustration">
                     <h3>Glad To Assist You!</h3>
@@ -358,7 +332,6 @@
         <div class="modal-content">
             <button class="modal-close">&times;</button>
             
-            <!-- Step 1: Role Selection View -->
             <div id="role-selection-view" class="modal-view active">
                 <h2 class="role-selection-title">Join As...</h2>
                 <div class="role-buttons">
@@ -373,7 +346,6 @@
                 </div>
             </div>
 
-            <!-- Step 2: Form View (Container for both student and teacher forms) -->
             <div id="form-view" class="modal-view">
                 <div class="form-view-header">
                     <button class="back-to-roles">&larr; Back</button>
@@ -387,13 +359,11 @@
                     <div class="modal-tab" data-form="signup">Sign Up</div>
                 </div>
 
-                <!-- Sign In Form -->
                 <form class="form-container active" id="signin-form">
                     <input type="email" placeholder="Email" class="form-input" required>
                     <input type="password" placeholder="Password" class="form-input" required>
                     <button type="submit" class="submit-btn">Sign In</button>
                 </form>
-                <!-- Sign Up Form -->
                 <form class="form-container" id="signup-form">
                     <input type="text" placeholder="Full Name" class="form-input" required>
                     <input type="email" placeholder="Email" class="form-input" required>
@@ -420,6 +390,8 @@
             const formSubtitle = document.getElementById('form-subtitle');
             const allSubmitBtns = document.querySelectorAll('.submit-btn');
 
+            let selectedRole = 'student'; // Default role
+
             const openModal = () => authModal.classList.add('visible');
             const closeModal = () => {
                 authModal.classList.remove('visible');
@@ -441,10 +413,10 @@
 
             roleButtons.forEach(btn => {
                 btn.addEventListener('click', () => {
-                    const role = btn.dataset.role;
+                    selectedRole = btn.dataset.role;
                     roleSelectionView.classList.remove('active');
                     
-                    if (role === 'student') {
+                    if (selectedRole === 'student') {
                         formIconContainer.innerHTML = `<div class="modal-icon student-modal-icon"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" viewBox="0 0 16 16"><path d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0l7.5-3a.5.5 0 0 0 .025-.917l-7.5-3.5zM4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466 4.176 9.032z"/></svg></div>`;
                         formTitle.textContent = "Student Portal";
                         formTitle.style.color = 'var(--primary-blue)';
@@ -481,6 +453,33 @@
                 });
             });
 
+            const signInForm = document.getElementById('signin-form');
+            const signUpForm = document.getElementById('signup-form');
+
+            signInForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                // This is a placeholder for frontend logic.
+                // In a real app, you would make a fetch call to your backend here.
+                alert(`Signing in as ${selectedRole}...`);
+                if (selectedRole === 'student') {
+                    window.location.href = 'student-portal.html';
+                } else {
+                    window.location.href = 'teacher-dashboard.html';
+                }
+            });
+
+            signUpForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                // This is a placeholder for frontend logic.
+                // In a real app, you would make a fetch call to your backend here.
+                 alert(`Creating account as ${selectedRole}...`);
+                 if (selectedRole === 'student') {
+                    window.location.href = 'student-portal.html';
+                } else {
+                    window.location.href = 'teacher-dashboard.html';
+                }
+            });
+            
             const revealElements = document.querySelectorAll('.reveal');
             const revealObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {

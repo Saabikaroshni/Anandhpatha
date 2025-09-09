@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Quiz - AnandPatha</title>
+
+    <!-- Google Fonts: Poppins (for English/Hindi) and Baloo Bhaina 2 (for Odia) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Baloo+Bhaina+2:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-blue: #0a69c6;
+            --secondary-green: #24a148;
+            --accent-yellow: #f1c21b;
+            --accent-orange: #f45d01;
+            --correct-green: #2ecc71;
+            --incorrect-red: #e74c3c;
+            --light-bg: #f7faff;
+            --text-dark: #2d3748;
+            --text-light: #ffffff;
+            --font-en-hi: 'Poppins', sans-serif;
+            --font-or: 'Baloo Bhaina 2', cursive;
+            --card-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-en-hi);
+            color: var(--text-dark);
+            margin: 0;
+            overflow-x: hidden;
+            position: relative;
+            background-color: var(--light-bg);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(300deg, #e0f7fa, #f0e6ff, #ffe0e0, #fff0d6);
+            background-size: 400% 400%;
+            animation: gradient-animation 25s ease infinite;
+            z-index: -1;
+            opacity: 0.8;
+        }
+
+        @keyframes gradient-animation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 0 20px; }
+        .main-content { padding-top: 100px; padding-bottom: 60px; flex-grow: 1; }
+
+        /* --- Header --- */
+        header {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        .navbar { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.8em; font-weight: 800; color: var(--primary-blue); text-decoration: none; }
+        .logo .lang-or { font-size: 1.2em; color: var(--accent-orange); }
+        .user-profile { display: flex; align-items: center; }
+        .user-avatar { width: 45px; height: 45px; border-radius: 50%; background-color: var(--primary-blue); color: white; display: flex; align-items: center; justify-content: center; font-weight: 600; margin-right: 15px; }
+        .user-info .username { font-weight: 600; }
+        
+        /* --- Quiz UI --- */
+        .quiz-container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px 40px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #eef2f7;
+            padding-bottom: 20px;
+        }
+        .quest-log h2 { margin: 0; font-size: 1.5rem; }
+        .quest-log p { margin: 0; color: #718096; }
+        .score-counter { text-align: right; }
+        .score-counter .score { font-size: 1.8rem; font-weight: 800; color: var(--primary-blue); }
+        
+        .progress-bar-container {
+            width: 100%;
+            background-color: #eef2f7;
+            border-radius: 10px;
+            height: 15px;
+            margin-bottom: 30px;
+        }
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-yellow), var(--accent-orange));
+            border-radius: 10px;
+            transition: width 0.5s ease-in-out;
+        }
+
+        .question-text { margin-bottom: 30px; }
+        .question-text .lang-hi { font-size: 1.3em; font-weight: 600; }
+        .question-text .lang-or { font-family: var(--font-or); font-size: 1.4em; font-weight: 600; }
+        .question-text .lang-en { font-size: 1.2em; font-weight: 800; margin-top: 10px; }
+
+        .answer-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        .answer-btn {
+            background-color: var(--light-bg);
+            border: 2px solid #eef2f7;
+            border-radius: 15px;
+            padding: 20px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+        .answer-btn:hover:not([disabled]) {
+            border-color: var(--primary-blue);
+            background-color: #eaf8ff;
+        }
+        .answer-btn:disabled { cursor: not-allowed; }
+        .answer-btn.correct {
+            background-color: var(--correct-green);
+            border-color: var(--correct-green);
+            color: white;
+            animation: flash-correct 0.5s ease;
+        }
+        .answer-btn.incorrect {
+            background-color: var(--incorrect-red);
+            border-color: var(--incorrect-red);
+            color: white;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes flash-correct { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); } 20%, 40%, 60%, 80% { transform: translateX(5px); } }
+
+        /* --- Results Modal --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        .modal-overlay.visible { opacity: 1; visibility: visible; }
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            text-align: center;
+            position: relative;
+        }
+        .results-title { font-size: 2.5rem; margin: 0; font-weight: 800; color: var(--primary-blue); }
+        .results-subtitle { font-size: 1.2rem; margin: 10px 0 30px; }
+        .results-summary {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
+        }
+        .summary-item .value { font-size: 2rem; font-weight: 800; }
+        .badge-unlocked { margin-bottom: 30px; }
+        .badge-icon { font-size: 4rem; }
+        .modal-buttons { display: flex; gap: 15px; justify-content: center; }
+        .modal-btn {
+            text-decoration: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+        .play-again-btn { background-color: var(--primary-blue); color: white; }
+        .back-to-portal-btn { background-color: #eef2f7; color: var(--text-dark); }
+        
+        /* Confetti Canvas */
+        #confetti-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        @media (max-width: 768px) {
+            .answer-grid { grid-template-columns: 1fr; }
+            .quiz-container { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav class="container navbar">
+            <a href="index.html" class="logo">
+                <span class="lang-en">AnandPatha</span>
+                <span class="lang-or">ଆନନ୍ଦପାଠ</span>
+            </a>
+            <div class="user-profile">
+                <div class="user-avatar">P</div>
+                <div class="user-info">
+                    <span class="username">Priya S.</span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container main-content">
+        <div class="quiz-container">
+            <div class="quiz-header">
+                <div class="quest-log">
+                    <h2>Mathematics Quest</h2>
+                    <p id="question-counter">Question 1 of 10</p>
+                </div>
+                <div class="score-counter">
+                    <div class="score" id="score">0 XP</div>
+                    <p style="margin:0; color: #718096;">Score</p>
+                </div>
+            </div>
+
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+
+            <div class="question-text" id="question-text">
+                <!-- Question will be loaded here by JS -->
+            </div>
+            
+            <div class="answer-grid" id="answer-grid">
+                <!-- Answer buttons will be loaded here by JS -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Results Modal -->
+    <div class="modal-overlay" id="results-modal">
+        <div class="modal-content">
+            <canvas id="confetti-canvas"></canvas>
+            <h2 class="results-title">Quest Complete!</h2>
+            <p class="results-subtitle">Here's how you did:</p>
+            <div class="results-summary">
+                <div class="summary-item">
+                    <div class="value" id="final-score">8/10</div>
+                    <div class="label">Correct Answers</div>
+                </div>
+                <div class="summary-item">
+                    <div class="value" id="xp-earned">+160 XP</div>
+                    <div class="label">XP Earned</div>
+                </div>
+            </div>
+            <div class="badge-unlocked">
+                <h3>New Badge Unlocked!</h3>
+                <div class="badge-icon">🧙‍♂️</div>
+                <p>Math Magician</p>
+            </div>
+            <div class="modal-buttons">
+                <a href="#" class="modal-btn play-again-btn" id="play-again-btn">Play Again</a>
+                <a href="student-portal.html" class="modal-btn back-to-portal-btn">Choose Subject</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Quiz Data (In a real app, this would come from your backend)
+            const quizData = [
+                {
+                    question: { hi: "एक त्रिभुज में कितने कोण होते हैं?", or: "ଏକ ତ୍ରିଭୁଜରେ କେତୋଟି କୋଣ ଅଛି?", en: "How many angles are in a triangle?" },
+                    answers: ["2", "3", "4", "5"],
+                    correct: "3"
+                },
+                {
+                    question: { hi: "9 x 7 क्या होता है?", or: "୯ x ୭ କେତେ?", en: "What is 9 x 7?" },
+                    answers: ["63", "72", "56", "64"],
+                    correct: "63"
+                },
+                {
+                    question: { hi: "एक वर्ग की सभी भुजाएँ _____ होती हैं।", or: "ଏକ ବର୍ଗର ସମସ୍ତ ବାହୁ _____ ଅଟେ।", en: "All sides of a square are _____." },
+                    answers: ["Unequal", "Equal", "Parallel", "Curved"],
+                    correct: "Equal"
+                },
+                // Add more questions here...
+            ];
+
+            const questionCounter = document.getElementById('question-counter');
+            const scoreDisplay = document.getElementById('score');
+            const progressBar = document.getElementById('progress-bar');
+            const questionText = document.getElementById('question-text');
+            const answerGrid = document.getElementById('answer-grid');
+            const resultsModal = document.getElementById('results-modal');
+            const finalScoreDisplay = document.getElementById('final-score');
+            const xpEarnedDisplay = document.getElementById('xp-earned');
+            const playAgainBtn = document.getElementById('play-again-btn');
+
+            let currentQuestionIndex = 0;
+            let score = 0;
+
+            function startQuiz() {
+                currentQuestionIndex = 0;
+                score = 0;
+                scoreDisplay.textContent = '0 XP';
+                resultsModal.classList.remove('visible');
+                showQuestion();
+            }
+
+            function showQuestion() {
+                // Reset styles
+                answerGrid.innerHTML = '';
+                
+                if (currentQuestionIndex < quizData.length) {
+                    const questionData = quizData[currentQuestionIndex];
+                    
+                    // Update Progress
+                    questionCounter.textContent = `Question ${currentQuestionIndex + 1} of ${quizData.length}`;
+                    progressBar.style.width = `${((currentQuestionIndex + 1) / quizData.length) * 100}%`;
+
+                    // Display Question Text
+                    questionText.innerHTML = `
+                        <div class="lang-hi">${questionData.question.hi}</div>
+                        <div class="lang-or">${questionData.question.or}</div>
+                        <div class="lang-en">${questionData.question.en}</div>
+                    `;
+
+                    // Create Answer Buttons
+                    questionData.answers.forEach(answer => {
+                        const button = document.createElement('button');
+                        button.className = 'answer-btn';
+                        button.textContent = answer;
+                        button.addEventListener('click', () => selectAnswer(button, answer, questionData.correct));
+                        answerGrid.appendChild(button);
+                    });
+                } else {
+                    showResults();
+                }
+            }
+
+            function selectAnswer(button, selectedAnswer, correctAnswer) {
+                // Disable all buttons after an answer is chosen
+                document.querySelectorAll('.answer-btn').forEach(btn => btn.disabled = true);
+
+                if (selectedAnswer === correctAnswer) {
+                    button.classList.add('correct');
+                    score++;
+                    scoreDisplay.textContent = `${score * 20} XP`;
+                    triggerConfetti();
+                } else {
+                    button.classList.add('incorrect');
+                }
+
+                setTimeout(() => {
+                    currentQuestionIndex++;
+                    showQuestion();
+                }, 1200); // Wait a moment before showing the next question
+            }
+
+            function showResults() {
+                finalScoreDisplay.textContent = `${score}/${quizData.length}`;
+                xpEarnedDisplay.textContent = `+${score * 20} XP`;
+                resultsModal.classList.add('visible');
+            }
+            
+            playAgainBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                startQuiz();
+            });
+
+            // --- Confetti Logic ---
+            function triggerConfetti() {
+                const canvas = document.getElementById('confetti-canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = canvas.parentElement.offsetWidth;
+                canvas.height = canvas.parentElement.offsetHeight;
+                
+                let particles = [];
+                const colors = ["#f1c21b", "#f45d01", "#24a148", "#0a69c6"];
+
+                for(let i = 0; i < 100; i++) {
+                    particles.push({
+                        x: canvas.width / 2,
+                        y: canvas.height,
+                        radius: Math.random() * 3 + 2,
+                        color: colors[Math.floor(Math.random() * colors.length)],
+                        vx: Math.random() * 20 - 10,
+                        vy: Math.random() * -30 - 10
+                    });
+                }
+
+                function draw() {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    particles.forEach((p, index) => {
+                        ctx.beginPath();
+                        ctx.fillStyle = p.color;
+                        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                        ctx.fill();
+                        
+                        p.x += p.vx;
+                        p.y += p.vy;
+                        p.vy += 0.5; // Gravity
+                        
+                        if(p.y > canvas.height) {
+                            particles.splice(index, 1);
+                        }
+                    });
+
+                    if (particles.length > 0) {
+                        requestAnimationFrame(draw);
+                    }
+                }
+                draw();
+            }
+
+            // Initial Start
+            startQuiz();
+        });
+    </script>
+</body>
+</html>
