@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AnandPatha – Joyful STEM Learning for Every Child</title>
+
+    <!-- Google Fonts: Poppins (for English/Hindi) and Baloo Bhaina 2 (for Odia) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Baloo+Bhaina+2:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- 1. General Setup & Variables --- */
+        :root {
+            --primary-blue: #0077b6;
+            --secondary-blue: #00b4d8;
+            --accent-green: #2ecc71;
+            --accent-yellow: #f1c40f;
+            --accent-orange: #e67e22;
+            --light-bg: #fdfdff;
+            --text-dark: #333;
+            --text-light: #fdfdff;
+            --font-en-hi: 'Poppins', sans-serif;
+            --font-or: 'Baloo Bhaina 2', cursive;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-en-hi);
+            color: var(--text-dark);
+            background-color: var(--light-bg);
+            margin: 0;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 80px 0;
+            overflow: hidden;
+        }
+        
+        /* --- 2. Floating Icons Background --- */
+        .background-icons {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .background-icons span {
+            position: absolute;
+            font-size: 2rem;
+            color: rgba(0, 180, 216, 0.1);
+            animation: float 20s linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); }
+            100% { transform: translateY(-10vh) rotate(360deg); }
+        }
+
+        /* --- 3. Typography & Multilingual Support --- */
+        .lang-block {
+            margin-bottom: 20px;
+        }
+        .lang-hi {
+            font-family: var(--font-en-hi);
+            font-size: 1.1em;
+            color: #555;
+        }
+        .lang-or {
+            font-family: var(--font-or);
+            font-size: 1.1em;
+            color: #555;
+        }
+        .lang-en {
+            font-family: var(--font-en-hi);
+            font-size: 1em;
+            font-weight: 600;
+        }
+
+        /* --- 4. Header & Navigation --- */
+        header {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            z-index: 100;
+            border-bottom: 1px solid #eee;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--primary-blue);
+        }
+        .logo .lang-or { font-size: 1.2em; color: var(--accent-orange); }
+
+        .nav-links a {
+            color: var(--text-dark);
+            text-decoration: none;
+            margin-left: 30px;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover {
+            color: var(--primary-blue);
+        }
+        
+        /* --- 5. Hero Section --- */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .hero h1 {
+            font-size: 3.5rem;
+            margin: 0;
+        }
+        .hero h1 .lang-hi { font-size: 1.1em; }
+        .hero h1 .lang-or { font-family: var(--font-or); font-size: 1.2em; color: var(--accent-orange); }
+        .hero p {
+            font-size: 1.2rem;
+            color: #666;
+            margin: 20px 0 40px;
+        }
+        .cta-buttons a {
+            text-decoration: none;
+            color: white;
+            padding: 15px 35px;
+            border-radius: 50px;
+            font-weight: 700;
+            margin: 0 10px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: inline-block;
+        }
+        .student-btn { background-color: var(--primary-blue); }
+        .teacher-btn { background-color: var(--accent-green); }
+        .cta-buttons a:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        /* --- 6. Features Section --- */
+        .features { background-color: #f0f8ff; }
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .section-title h2 .lang-or { color: var(--accent-orange); }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .feature-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 119, 182, 0.1);
+        }
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+        }
+        .feature-card h3 { margin-top: 0; }
+        
+        /* --- 7. Subjects Section --- */
+        .subject-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .subject-card {
+            background-image: linear-gradient(to top, #0077b6, #00b4d8);
+            color: white;
+            padding: 40px 20px;
+            border-radius: 15px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .subject-card:hover {
+            transform: scale(1.05);
+        }
+        .subject-icon {
+            font-size: 3rem;
+            opacity: 0.1;
+            position: absolute;
+            bottom: -10px;
+            right: -10px;
+            transition: transform 0.4s;
+        }
+        .subject-card:hover .subject-icon {
+            transform: scale(1.2) rotate(15deg);
+        }
+        .subject-card h3 { margin: 0; font-size: 1.5rem; }
+
+        /* --- 8. Mission Section --- */
+        .mission {
+            background: #e9f5ff;
+            text-align: center;
+        }
+        .mission-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* --- 9. Footer --- */
+        footer {
+            background: var(--text-dark);
+            color: var(--text-light);
+            padding: 50px 0 20px;
+            text-align: center;
+        }
+        .footer-logo .lang-or { color: var(--accent-orange); }
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+        .copyright {
+            margin-top: 30px;
+            font-size: 0.9em;
+            opacity: 0.7;
+        }
+
+        /* --- 10. Animations on Scroll --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s, transform 0.8s;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* --- 11. Responsive Design --- */
+        @media (max-width: 768px) {
+            .navbar { flex-direction: column; }
+            .nav-links { margin-top: 15px; }
+            .nav-links a { margin: 0 10px; }
+            .hero h1 { font-size: 2.5rem; }
+            .cta-buttons { display: flex; flex-direction: column; align-items: center; }
+            .cta-buttons a { margin: 10px 0; width: 80%; }
+            section { padding: 60px 0; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Floating Background Icons -->
+    <div class="background-icons"></div>
+
+    <!-- Header -->
+    <header>
+        <nav class="container navbar">
+            <div class="logo">
+                <span class="lang-en">AnandPatha</span>
+                <span class="lang-or">ଆନନ୍ଦପାଠ</span>
+            </div>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#subjects">Subjects</a>
+                <a href="#mission">Mission</a>
+                <a href="signin.html">Sign In</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container hero-content">
+            <h1 class="reveal">
+                <div class="lang-hi">आनंदपाठ – हर बच्चे के लिए STEM सीखने का आनंद</div>
+                <div class="lang-or">ଆନନ୍ଦପାଠ – ପ୍ରତ୍ୟେକ ପିଲାଙ୍କ ପାଇଁ ଆନନ୍ଦମୟ STEM ଶିକ୍ଷା</div>
+                <div class="lang-en">AnandPatha – Joyful STEM Learning for Every Child</div>
+            </h1>
+            <p class="reveal">
+                Unlock your potential with interactive games, AI-powered lessons, and a joyful learning journey. Available in English, Hindi, and Odia.
+            </p>
+            <div class="cta-buttons reveal">
+                <a href="student-portal.html" class="student-btn">I am a Student</a>
+                <a href="teacher-dashboard.html" class="teacher-btn">I am a Teacher</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-title reveal">
+                <h2>
+                    <div class="lang-hi">सीखने का एक बेहतर तरीका</div>
+                    <div class="lang-or">ଶିଖିବାର ଏକ ଉନ୍ନତ ମାର୍ଗ</div>
+                    <div class="lang-en">A Better Way to Learn</div>
+                </h2>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card reveal">
+                    <div class="feature-icon">🎮</div>
+                    <h3>
+                        <div class="lang-hi">गेमिफाइड क्विज़</div>
+                        <div class="lang-or">ଗେମିଫାଏଡ୍ କୁଇଜ୍</div>
+                        <div class="lang-en">Gamified Quizzes</div>
+                    </h3>
+                    <p>Turn learning into an adventure! Earn badges, climb leaderboards, and master subjects through fun challenges.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon">🌐</div>
+                    <h3>
+                        <div class="lang-hi">बहुभाषी सामग्री</div>
+                        <div class="lang-or">ବହୁଭାଷୀ ବିଷୟବସ୍ତୁ</div>
+                        <div class="lang-en">Multilingual Content</div>
+                    </h3>
+                    <p>Learn complex STEM topics in the language you are most comfortable with: English, Hindi, or Odia.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon">📊</div>
+                    <h3>
+                        <div class="lang-hi">शिक्षक डैशबोर्ड</div>
+                        <div class="lang-or">ଶିକ୍ଷକ ଡ୍ୟାସବୋର୍ଡ</div>
+                        <div class="lang-en">Teacher Dashboard</div>
+                    </h3>
+                    <p>Teachers can easily track student progress with insightful analytics and visual reports to guide them better.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Subjects Section -->
+    <section class="subjects" id="subjects">
+        <div class="container">
+            <div class="section-title reveal">
+                <h2>
+                    <div class="lang-hi">हमारे विषय खोजें</div>
+                    <div class="lang-or">ଆମର ବିଷୟଗୁଡ଼ିକ ଅନୁସନ୍ଧାନ କରନ୍ତୁ</div>
+                    <div class="lang-en">Explore Our Subjects</div>
+                </h2>
+            </div>
+            <div class="subject-grid">
+                <div class="subject-card reveal">
+                    <h3>Mathematics</h3>
+                    <div class="subject-icon">📐</div>
+                </div>
+                <div class="subject-card reveal">
+                    <h3>Physics</h3>
+                    <div class="subject-icon">⚛️</div>
+                </div>
+                <div class="subject-card reveal">
+                    <h3>Chemistry</h3>
+                    <div class="subject-icon">🔬</div>
+                </div>
+                <div class="subject-card reveal">
+                    <h3>Biology</h3>
+                    <div class="subject-icon">🌿</div>
+                </div>
+                 <div class="subject-card reveal">
+                    <h3>Computer Science</h3>
+                    <div class="subject-icon">💻</div>
+                </div>
+                 <div class="subject-card reveal">
+                    <h3>General Science</h3>
+                    <div class="subject-icon">💡</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission Section -->
+    <section class="mission" id="mission">
+        <div class="container mission-content reveal">
+            <h2>
+                <div class="lang-hi">हमारा मिशन</div>
+                <div class="lang-or">ଆମର ଲକ୍ଷ୍ୟ</div>
+                <div class="lang-en">Our Mission</div>
+            </h2>
+            <p>At AnandPatha, our mission is to make quality STEM education accessible, engaging, and joyful for every student, regardless of their background. Deeply inspired by the rich cultural heritage of Odisha, we believe in nurturing curiosity and building a strong foundation for the next generation of innovators and thinkers. We are committed to breaking language barriers and making learning a celebration.</p>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-logo logo reveal">
+                <span class="lang-en">AnandPatha</span>
+                <span class="lang-or">ଆନନ୍ଦପାଠ</span>
+            </div>
+            <div class="footer-links reveal">
+                <a href="#home">Home</a>
+                <a href="#features">Features</a>
+                <a href="about.html">About Us</a>
+                <a href="signin.html">Contact</a>
+            </div>
+            <div class="copyright reveal">
+                &copy; 2025 AnandPatha. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+    // --- JavaScript for Animations and Interactivity ---
+
+    // 1. Floating Icons Generator
+    document.addEventListener('DOMContentLoaded', function() {
+        const iconsContainer = document.querySelector('.background-icons');
+        const icons = ['⚛️', '📐', '🔬', '🌿', '💻', '💡', '➕', '➗'];
+        const numIcons = 30;
+
+        for (let i = 0; i < numIcons; i++) {
+            const span = document.createElement('span');
+            span.textContent = icons[Math.floor(Math.random() * icons.length)];
+            span.style.left = `${Math.random() * 100}vw`;
+            span.style.animationDuration = `${Math.random() * 15 + 10}s`; // 10s to 25s
+            span.style.animationDelay = `${Math.random() * 5}s`;
+            span.style.fontSize = `${Math.random() * 1.5 + 1}rem`; // 1rem to 2.5rem
+            iconsContainer.appendChild(span);
+        }
+    });
+    
+    // 2. Reveal Elements on Scroll
+    const revealElements = document.querySelectorAll('.reveal');
+
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+            }
+        });
+    }, {
+        threshold: 0.15 
+    });
+
+    revealElements.forEach(el => {
+        revealObserver.observe(el);
+    });
+
+    </script>
+
+</body>
+</html>
+

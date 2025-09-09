@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AnandPatha – Your Learning Quest Awaits!</title>
+
+    <!-- Google Fonts: Poppins (for English/Hindi) and Baloo Bhaina 2 (for Odia) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Baloo+Bhaina+2:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-blue: #0a69c6;
+            --secondary-green: #24a148;
+            --accent-yellow: #f1c21b;
+            --accent-orange: #f45d01;
+            --light-bg: #f7faff;
+            --text-dark: #2d3748;
+            --text-light: #ffffff;
+            --font-en-hi: 'Poppins', sans-serif;
+            --font-or: 'Baloo Bhaina 2', cursive;
+            --card-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-en-hi);
+            color: var(--text-dark);
+            margin: 0;
+            overflow-x: hidden;
+            position: relative;
+            background-color: var(--light-bg);
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(300deg, #e0f7fa, #f0e6ff, #ffe0e0, #fff0d6);
+            background-size: 400% 400%;
+            animation: gradient-animation 25s ease infinite;
+            z-index: -1;
+            opacity: 0.8;
+        }
+
+        @keyframes gradient-animation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        section { padding: 100px 0; overflow: hidden; position: relative; }
+
+        /* --- Header --- */
+        header {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        .navbar { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.8em; font-weight: 800; color: var(--primary-blue); text-decoration: none; }
+        .logo .lang-or { font-size: 1.2em; color: var(--accent-orange); }
+        .signin-signup-btn {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(10, 105, 198, 0.3);
+            border: none;
+            cursor: pointer;
+        }
+        .signin-signup-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(10, 105, 198, 0.4); }
+
+        /* --- Hero Section --- */
+        .hero { min-height: 100vh; display: flex; align-items: center; text-align: center; }
+        .hero-content h1 { font-size: 3.2rem; margin: 0; line-height: 1.3; font-weight: 800; }
+        .hero-content h1 .lang-hi { font-size: 0.8em; font-weight: 600; color: #4a5568; }
+        .hero-content h1 .lang-or { font-size: 0.9em; color: var(--accent-orange); font-weight: 600; }
+        .hero-content p { font-size: 1.2rem; color: #4a5568; margin: 20px 0 40px; }
+        .quest-btn {
+            background: linear-gradient(45deg, var(--accent-orange), var(--accent-yellow));
+            color: var(--text-dark);
+            padding: 20px 50px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1.4rem;
+            font-weight: 800;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(244, 93, 1, 0.3);
+            display: inline-block;
+            animation: pulse 2s infinite;
+        }
+        .quest-btn:hover { transform: translateY(-5px) scale(1.05); box-shadow: 0 15px 35px rgba(244, 93, 1, 0.4); }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.03); } }
+        
+        .section-title { text-align: center; margin-bottom: 60px; font-size: 2.5rem; }
+
+        /* --- Universal Login Modal --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease-in-out;
+        }
+        .modal-overlay.visible { opacity: 1; visibility: visible; }
+        .modal-content {
+            background: var(--light-bg);
+            padding: 40px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 480px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            transform: scale(0.9);
+            transition: all 0.3s ease-in-out;
+            text-align: center;
+        }
+        .modal-overlay.visible .modal-content { transform: scale(1); }
+        .modal-close {
+            position: absolute; top: 15px; right: 15px;
+            font-size: 1.5rem; color: #aaa; cursor: pointer;
+            border: none; background: none;
+        }
+        
+        .modal-view { display: none; }
+        .modal-view.active { display: block; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .role-selection-title { font-size: 1.8rem; font-weight: 800; margin-bottom: 30px; }
+        .role-buttons { display: flex; flex-direction: column; gap: 20px; }
+        .role-btn {
+            padding: 25px;
+            border-radius: 15px;
+            border: none;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        .role-btn:hover { transform: translateY(-5px); box-shadow: var(--card-shadow); }
+        .role-btn.student { background-color: #eaf8ff; color: var(--primary-blue); }
+        .role-btn.teacher { background-color: #eafaf1; color: var(--secondary-green); }
+
+        .form-view-header { position: relative; }
+        .back-to-roles {
+            position: absolute; top: 0; left: 0;
+            font-size: 1rem; font-weight: 600;
+            color: #718096; cursor: pointer;
+            background: none; border: none;
+        }
+        .modal-icon { width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; color: white; }
+        .student-modal-icon { background-color: var(--primary-blue); }
+        .teacher-modal-icon { background-color: var(--secondary-green); }
+        .modal-title { font-size: 1.8rem; font-weight: 800; margin-bottom: 5px; }
+        .modal-subtitle { color: #718096; margin-bottom: 30px; }
+
+        .modal-tabs { display: flex; background: #eef2f7; border-radius: 50px; padding: 5px; margin-bottom: 30px; }
+        .modal-tab { flex: 1; padding: 10px; border-radius: 50px; cursor: pointer; font-weight: 600; transition: all 0.3s; }
+        .modal-tab.active { background: white; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .form-container { display: none; } .form-container.active { display: block; }
+        .form-input { width: 100%; padding: 15px; border: 1px solid #e2e8f0; border-radius: 10px; margin-bottom: 15px; box-sizing: border-box; font-size: 1rem; }
+        .submit-btn { width: 100%; padding: 15px; border: none; border-radius: 10px; color: white; font-weight: 700; font-size: 1.1rem; cursor: pointer; transition: transform 0.2s; }
+        .submit-btn:hover { transform: translateY(-3px); }
+        .student-submit { background-color: var(--primary-blue); }
+        .teacher-submit { background-color: var(--secondary-green); }
+        
+        /* Other Sections Styling... */
+        .how-it-works .timeline { position: relative; max-width: 800px; margin: 0 auto; }
+        .how-it-works .timeline::after { content: ''; position: absolute; width: 6px; background-color: var(--primary-blue); opacity: 0.2; top: 0; bottom: 0; left: 50%; margin-left: -3px; }
+        .timeline-container { padding: 10px 40px; position: relative; width: 50%; box-sizing: border-box; }
+        .timeline-container.left { left: 0; } .timeline-container.right { left: 50%; }
+        .timeline-container::after { content: ''; position: absolute; width: 25px; height: 25px; background-color: white; border: 4px solid var(--accent-orange); top: 15px; border-radius: 50%; z-index: 1; }
+        .timeline-container.left::after { right: -17px; } .timeline-container.right::after { left: -17px; }
+        .timeline-content { padding: 20px 30px; background-color: white; position: relative; border-radius: 15px; box-shadow: var(--card-shadow); }
+        .timeline-container.left .timeline-content { text-align: right; }
+        .timeline-content::before { content: " "; height: 0; position: absolute; top: 22px; width: 0; z-index: 1; border: 10px solid transparent; }
+        .timeline-container.left .timeline-content::before { right: -20px; border-left-color: white; }
+        .timeline-container.right .timeline-content::before { left: -20px; border-right-color: white; }
+        .timeline-content h3 { margin-top: 0; color: var(--primary-blue); }
+        .why-us-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .why-card { background: white; padding: 30px; border-radius: 15px; text-align: center; box-shadow: var(--card-shadow); transition: transform 0.3s; }
+        .why-card:hover { transform: translateY(-10px); }
+        .why-icon { font-size: 3rem; margin-bottom: 15px; color: var(--secondary-green); }
+        .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+        .testimonial-card { background: white; padding: 30px; border-radius: 15px; box-shadow: var(--card-shadow); }
+        .testimonial-author { display: flex; align-items: center; margin-top: 20px; }
+        .author-avatar { width: 50px; height: 50px; border-radius: 50%; margin-right: 15px; }
+        .author-info h4 { margin: 0; } .author-info p { margin: 0; font-size: 0.9em; color: #718096; }
+        
+        /* --- New Info Card Section --- */
+        .info-section { padding-bottom: 100px; }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            align-items: stretch;
+        }
+        .info-card {
+            background-color: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        .info-card:hover { transform: translateY(-10px); }
+        .info-card img {
+            max-width: 150px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        .info-card h3 { font-size: 1.8rem; margin: 0 0 10px 0; }
+        .info-card h3 span {
+            background: linear-gradient(45deg, var(--primary-blue), var(--secondary-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .info-card p { margin: 0 0 25px 0; color: #718096; flex-grow: 1; }
+        .info-btn {
+            text-decoration: none;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        .info-btn.ai { background-color: var(--primary-blue); }
+        .info-btn.contact { background-color: var(--secondary-green); }
+        .info-btn:hover { box-shadow: 0 8px 20px rgba(0,0,0,0.2); transform: scale(1.05); }
+
+        footer { background: var(--text-dark); color: white; padding: 40px 0; text-align: center; }
+        .reveal { opacity: 0; transform: translateY(50px); transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 2.5rem; }
+            .quest-btn { padding: 15px 35px; }
+            section { padding: 60px 0; }
+            .how-it-works .timeline::after { left: 31px; }
+            .timeline-container { width: 100%; padding-left: 70px; padding-right: 25px; }
+            .timeline-container.left, .timeline-container.right { left: 0%; }
+            .timeline-container.left .timeline-content, .timeline-container.right .timeline-content { text-align: left; }
+            .timeline-container.left::after, .timeline-container.right::after { left: 15px; }
+            .timeline-container.left .timeline-content::before, .timeline-container.right .timeline-content::before { left: -20px; border-right-color: white; border-left-color: transparent; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav class="container navbar">
+            <a href="#" class="logo">
+                <span class="lang-en">AnandPatha</span>
+                <span class="lang-or">ଆନନ୍ଦପାଠ</span>
+            </a>
+            <button class="signin-signup-btn" id="open-auth-modal-btn">Sign In / Sign Up</button>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="container hero-content">
+            <h1 class="reveal">
+                <div class="lang-hi">आपकी सीखने की खोज यहाँ से शुरू होती है!</div>
+                <div class="lang-or">ଆପଣଙ୍କ ଶିକ୍ଷଣୀୟ ଅନ୍ୱେଷଣ ଏଠାରୁ ଆରମ୍ଭ ହେଉଛି!</div>
+                <div class="lang-en">Your Learning Quest Begins Here!</div>
+            </h1>
+            <p class="reveal">Master STEM subjects through exciting games, challenges, and adventures. Ready to play?</p>
+            <a href="#" class="quest-btn reveal" id="start-quest-btn">Start Your Quest!</a>
+        </div>
+    </section>
+
+    <!-- Other Sections -->
+    <section class="how-it-works">
+        <div class="container">
+            <h2 class="section-title reveal">Your Path to Mastery in 4 Steps</h2>
+            <div class="timeline">
+                <div class="timeline-container left reveal"><div class="timeline-content"><h3>1. Choose Your World</h3><p>Pick a subject you want to master, from the realms of Mathematics to the universe of Physics.</p></div></div>
+                <div class="timeline-container right reveal"><div class="timeline-content"><h3>2. Play & Learn</h3><p>Dive into interactive quizzes and gamified lessons that make learning concepts feel like an exciting adventure.</p></div></div>
+                <div class="timeline-container left reveal"><div class="timeline-content"><h3>3. Earn Rewards</h3><p>Collect experience points (XP), unlock cool badges, and watch your name climb the Hall of Fame!</p></div></div>
+                <div class="timeline-container right reveal"><div class="timeline-content"><h3>4. Track Your Growth</h3><p>See your progress in real-time. Understand your strengths and conquer your weaknesses.</p></div></div>
+            </div>
+        </div>
+    </section>
+    <section class="why-us">
+        <div class="container">
+            <h2 class="section-title reveal">Why Choose AnandPatha?</h2>
+            <div class="why-us-grid">
+                <div class="why-card reveal"><div class="why-icon">🌐</div><h3>Learn in Your Language</h3><p>Access all content in English, Hindi, and Odia. Master complex topics without language being a barrier.</p></div>
+                <div class="why-card reveal"><div class="why-icon">🎮</div><h3>Fun, Not Frustrating</h3><p>Our gamified approach with leaderboards and badges keeps you motivated and turns study time into playtime.</p></div>
+                <div class="why-card reveal"><div class="why-icon">📶</div><h3>Learn Anytime, Anywhere</h3><p>With offline access, your learning journey never stops, even without an internet connection.</p></div>
+            </div>
+        </div>
+    </section>
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title reveal">Hear From Our Learners</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card reveal"><p>"I used to find math difficult, but the quests in AnandPatha make it so much fun! I love competing with my friends on the leaderboard."</p><div class="testimonial-author"><img src="https://placehold.co/50x50/f1c21b/333?text=P" alt="Avatar" class="author-avatar"><div class="author-info"><h4>Priya S.</h4><p>Class 8 Student</p></div></div></div>
+                <div class="testimonial-card reveal"><p>"The teacher dashboard is a game-changer. I can instantly see which topics my students are struggling with and provide targeted help."</p><div class="testimonial-author"><img src="https://placehold.co/50x50/0a69c6/fff?text=R" alt="Avatar" class="author-avatar"><div class="author-info"><h4>Rajesh Meher</h4><p>Science Teacher</p></div></div></div>
+                <div class="testimonial-card reveal"><p>"Being able to learn Chemistry in Odia has helped me understand the concepts much better. The badges are a great motivation!"</p><div class="testimonial-author"><img src="https://placehold.co/50x50/f45d01/fff?text=A" alt="Avatar" class="author-avatar"><div class="author-info"><h4>Ankit Mohanty</h4><p>Class 10 Student</p></div></div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- New Info Card Section -->
+    <section class="info-section">
+        <div class="container">
+            <div class="info-grid">
+                <!-- AI Doubt Solver Card -->
+                <div class="info-card reveal">
+                    <img src="https://placehold.co/300x200/eaf8ff/0a69c6?text=AnandAI" alt="AI Assistant Illustration">
+                    <h3>Solve your doubts with <span>AnandAI</span></h3>
+                    <p>Stuck on a problem? Our friendly AI tutor is here to help you understand concepts, not just give you the answers.</p>
+                    <a href="#" class="info-btn ai">Ask a Doubt</a>
+                </div>
+
+                <!-- Contact Card -->
+                <div class="info-card reveal">
+                    <img src="https://placehold.co/300x200/eafaf1/24a148?text=Support" alt="Support Team Illustration">
+                    <h3>Glad To Assist You!</h3>
+                    <p>Need more info? Our experts are happy to help you on your learning journey. Give us a call!</p>
+                    <a href="tel:+919042693840" class="info-btn contact">+91-9042693840</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer><p>&copy; 2025 AnandPatha. The Joyful Path to Learning.</p></footer>
+
+    <!-- Universal Login/Signup Modal -->
+    <div class="modal-overlay" id="auth-modal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            
+            <!-- Step 1: Role Selection View -->
+            <div id="role-selection-view" class="modal-view active">
+                <h2 class="role-selection-title">Join As...</h2>
+                <div class="role-buttons">
+                    <button class="role-btn student" data-role="student">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16"><path d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0l7.5-3a.5.5 0 0 0 .025-.917l-7.5-3.5zM4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466 4.176 9.032z"/></svg>
+                        I am a Student
+                    </button>
+                    <button class="role-btn teacher" data-role="teacher">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16"><path d="M4 16s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H4Zm4-5.95a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"/><path d="M2 1a2 2 0 0 0-2 2v9.5A1.5 1.5 0 0 0 1.5 14h.653a5.373 5.373 0 0 1 1.066-2H1V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v9h-2.219c.554.654.89 1.373 1.066 2h.653a1.5 1.5 0 0 0 1.5-1.5V3a2 2 0 0 0-2-2H2Z"/></svg>
+                        I am a Teacher
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 2: Form View (Container for both student and teacher forms) -->
+            <div id="form-view" class="modal-view">
+                <div class="form-view-header">
+                    <button class="back-to-roles">&larr; Back</button>
+                    <div id="form-icon-container"></div>
+                    <h2 id="form-title" class="modal-title"></h2>
+                    <p id="form-subtitle" class="modal-subtitle"></p>
+                </div>
+                
+                <div class="modal-tabs">
+                    <div class="modal-tab active" data-form="signin">Sign In</div>
+                    <div class="modal-tab" data-form="signup">Sign Up</div>
+                </div>
+
+                <!-- Sign In Form -->
+                <form class="form-container active" id="signin-form">
+                    <input type="email" placeholder="Email" class="form-input" required>
+                    <input type="password" placeholder="Password" class="form-input" required>
+                    <button type="submit" class="submit-btn">Sign In</button>
+                </form>
+                <!-- Sign Up Form -->
+                <form class="form-container" id="signup-form">
+                    <input type="text" placeholder="Full Name" class="form-input" required>
+                    <input type="email" placeholder="Email" class="form-input" required>
+                    <input type="password" placeholder="Create Password" class="form-input" required>
+                    <button type="submit" class="submit-btn">Create Account</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const authModal = document.getElementById('auth-modal');
+            const openModalBtn = document.getElementById('open-auth-modal-btn');
+            const startQuestBtn = document.getElementById('start-quest-btn');
+            
+            const roleSelectionView = document.getElementById('role-selection-view');
+            const formView = document.getElementById('form-view');
+            const roleButtons = document.querySelectorAll('.role-btn');
+            const backButton = document.querySelector('.back-to-roles');
+            
+            const formIconContainer = document.getElementById('form-icon-container');
+            const formTitle = document.getElementById('form-title');
+            const formSubtitle = document.getElementById('form-subtitle');
+            const allSubmitBtns = document.querySelectorAll('.submit-btn');
+
+            const openModal = () => authModal.classList.add('visible');
+            const closeModal = () => {
+                authModal.classList.remove('visible');
+                setTimeout(() => {
+                    formView.classList.remove('active');
+                    roleSelectionView.classList.add('active');
+                }, 300);
+            };
+
+            [openModalBtn, startQuestBtn].forEach(btn => btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                openModal();
+            }));
+            
+            authModal.querySelector('.modal-close').addEventListener('click', closeModal);
+            authModal.addEventListener('click', (e) => {
+                if (e.target === authModal) closeModal();
+            });
+
+            roleButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const role = btn.dataset.role;
+                    roleSelectionView.classList.remove('active');
+                    
+                    if (role === 'student') {
+                        formIconContainer.innerHTML = `<div class="modal-icon student-modal-icon"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" viewBox="0 0 16 16"><path d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0l7.5-3a.5.5 0 0 0 .025-.917l-7.5-3.5zM4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466 4.176 9.032z"/></svg></div>`;
+                        formTitle.textContent = "Student Portal";
+                        formTitle.style.color = 'var(--primary-blue)';
+                        formSubtitle.textContent = "Your learning adventure starts here!";
+                        allSubmitBtns.forEach(b => { b.className = 'submit-btn student-submit'; });
+                    } else {
+                        formIconContainer.innerHTML = `<div class="modal-icon teacher-modal-icon"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" viewBox="0 0 16 16"><path d="M4 16s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H4Zm4-5.95a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"/><path d="M2 1a2 2 0 0 0-2 2v9.5A1.5 1.5 0 0 0 1.5 14h.653a5.373 5.373 0 0 1 1.066-2H1V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v9h-2.219c.554.654.89 1.373 1.066 2h.653a1.5 1.5 0 0 0 1.5-1.5V3a2 2 0 0 0-2-2H2Z"/></svg></div>`;
+                        formTitle.textContent = "Teacher Portal";
+                        formTitle.style.color = 'var(--secondary-green)';
+                        formSubtitle.textContent = "Track and manage your students' progress.";
+                        allSubmitBtns.forEach(b => { b.className = 'submit-btn teacher-submit'; });
+                    }
+                    
+                    formView.classList.add('active');
+                });
+            });
+
+            backButton.addEventListener('click', () => {
+                formView.classList.remove('active');
+                roleSelectionView.classList.add('active');
+            });
+
+            const allTabs = document.querySelectorAll('.modal-tab');
+            allTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const formId = tab.dataset.form + '-form';
+                    const modal = tab.closest('.modal-content');
+                    
+                    modal.querySelectorAll('.modal-tab').forEach(t => t.classList.remove('active'));
+                    modal.querySelectorAll('.form-container').forEach(f => f.classList.remove('active'));
+                    
+                    tab.classList.add('active');
+                    modal.querySelector('#' + formId).classList.add('active');
+                });
+            });
+
+            const revealElements = document.querySelectorAll('.reveal');
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.1 });
+            revealElements.forEach(el => revealObserver.observe(el));
+        });
+    </script>
+</body>
+</html>
+
