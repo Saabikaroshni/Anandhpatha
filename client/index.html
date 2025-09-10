@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AnandPatha – Your Learning Quest Awaits!</title>
 
-    <!-- Google Fonts: Poppins (for English/Hindi) and Baloo Bhaina 2 (for Odia) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Baloo+Bhaina+2:wght@400;600;700&display=swap" rel="stylesheet">
@@ -257,7 +256,7 @@
                 <span class="lang-en">AnandPatha</span>
                 <span class="lang-or">ଆନନ୍ଦପାଠ</span>
             </a>
-            <button class="signin-signup-btn" id="open-auth-modal-btn">Sign In / Sign Up</button>
+            <a href="https://edu-sig-up.vercel.app/" class="signin-signup-btn">Sign In / Sign Up</a>
         </nav>
     </header>
 
@@ -269,7 +268,7 @@
                 <div class="lang-en">Your Learning Quest Begins Here!</div>
             </h1>
             <p class="reveal">Master STEM subjects through exciting games, challenges, and adventures. Ready to play?</p>
-            <a href="#" class="quest-btn reveal" id="start-quest-btn">Start Your Quest!</a>
+            <a href="https://edu-sig-up.vercel.app/" class="quest-btn reveal" id="start-quest-btn">Start Your Quest!</a>
         </div>
     </section>
 
@@ -327,7 +326,6 @@
 
     <footer><p>&copy; 2025 AnandPatha. The Joyful Path to Learning.</p></footer>
 
-    <!-- Universal Login/Signup Modal -->
     <div class="modal-overlay" id="auth-modal">
         <div class="modal-content">
             <button class="modal-close">&times;</button>
@@ -377,7 +375,6 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const authModal = document.getElementById('auth-modal');
-            const openModalBtn = document.getElementById('open-auth-modal-btn');
             const startQuestBtn = document.getElementById('start-quest-btn');
             
             const roleSelectionView = document.getElementById('role-selection-view');
@@ -401,10 +398,10 @@
                 }, 300);
             };
 
-            [openModalBtn, startQuestBtn].forEach(btn => btn.addEventListener('click', (e) => {
+            startQuestBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 openModal();
-            }));
+            });
             
             authModal.querySelector('.modal-close').addEventListener('click', closeModal);
             authModal.addEventListener('click', (e) => {
@@ -472,8 +469,8 @@
                 e.preventDefault();
                 // This is a placeholder for frontend logic.
                 // In a real app, you would make a fetch call to your backend here.
-                 alert(`Creating account as ${selectedRole}...`);
-                 if (selectedRole === 'student') {
+                alert(`Creating account as ${selectedRole}...`);
+                if (selectedRole === 'student') {
                     window.location.href = 'student-portal.html';
                 } else {
                     window.location.href = 'teacher-dashboard.html';
@@ -493,4 +490,3 @@
     </script>
 </body>
 </html>
-
